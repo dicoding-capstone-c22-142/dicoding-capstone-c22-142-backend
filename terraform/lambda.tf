@@ -12,15 +12,15 @@ resource "aws_lambda_layer_version" "utils" {
   compatible_runtimes = ["nodejs14.x"]
 }
 
-data "archive_file" "todos" {
+data "archive_file" "cashtex" {
   for_each = local.lambdas
 
-  output_path = "files/${each.key}-todo-artefact.zip"
+  output_path = "files/${each.key}-cashtex-artefact.zip"
   type        = "zip"
-  source_file = "${local.lambdas_path}/todos/${each.key}.js"
+  source_file = "${local.lambdas_path}/cashtex/${each.key}.js"
 }
 
-resource "aws_lambda_function" "todos" {
+resource "aws_lambda_function" "cashtex" {
   for_each = local.lambdas
 
   function_name = "dynamodb-${each.key}-item"
@@ -29,8 +29,8 @@ resource "aws_lambda_function" "todos" {
   role          = aws_iam_role.rest_api_role.arn
   runtime       = "nodejs14.x"
 
-  filename         = data.archive_file.todos[each.key].output_path
-  source_code_hash = data.archive_file.todos[each.key].output_base64sha256
+  filename         = data.archive_file.cashtex[each.key].output_path
+  source_code_hash = data.archive_file.cashtex[each.key].output_base64sha256
 
   timeout     = each.value["timeout"]
   memory_size = each.value["memory"]
@@ -53,7 +53,7 @@ resource "aws_lambda_permission" "api" {
   for_each = local.lambdas
 
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.todos[each.key].arn
+  function_name = aws_lambda_function.cashtex[each.key].arn
   principal     = "apigateway.amazonaws.com"
   source_arn    = "arn:aws:execute-api:${var.aws_region}:${var.aws_account_id}:*/*"
 }
