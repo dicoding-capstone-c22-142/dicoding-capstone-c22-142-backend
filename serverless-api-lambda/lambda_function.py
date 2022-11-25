@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-dynamodbTableName =['cashtex-user', 'cashtex-product']
+dynamodbTableName = ['cashtex-user', 'cashtex-product']
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(dynamodbTableName)
 
@@ -120,7 +120,7 @@ def modifyUser(user_id, updateKey, updateValue):
         }
         return buildResponse(200, body)
     except:
-        logger.exception('Successfuly modified')
+        logger.exception('Successfully modified')
 
 def deleteUser(user_id):
     try:
@@ -152,7 +152,7 @@ def getProduct(product_id):
         else:
             return buildResponse(404, {'Message': 'Product_Id: %s not found' % product_id})
     except:
-        logger.exception('Make sure that user is allready registred')
+        logger.exception('Make sure that product is allready registred')
 
 def getProducts():
     try:
