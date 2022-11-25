@@ -5,7 +5,7 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-dynamodbTableName = 'cashtex-product'
+dynamodbTableName =['cashtex-user', 'cashtex-product']
 dynamodb = boto3.resource('dynamodb')
 table = dynamodb.Table(dynamodbTableName)
 
@@ -233,4 +233,3 @@ def buildResponse(statusCode, body=None):
         if body is not None:
             response['body'] = json.dumps(body, cls=CustomEncoder)
         return response
-        
