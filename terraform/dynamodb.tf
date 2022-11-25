@@ -18,18 +18,6 @@ resource "aws_dynamodb_table_item" "this" {
     "id": {
         "S": "123"
     },
-    "full_name": {
-        "S": "Cashtext API User"
-    },
-    "email": {
-        "S": "user@c22142"
-    },
-    "username": {
-        "S": "user"
-    },
-    "password": {
-        "S": "password"
-    },
 }
 ITEM
 }

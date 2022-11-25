@@ -2,7 +2,6 @@ variable "env" {
     description = "Environment"
     type        = string
     default     = "dev"
-  
 }
 
 variable "aws_region" {
@@ -16,6 +15,7 @@ variable "aws_profile" {
     type        = string
     default     = "ftr-infra"
 }
+
 variable "profile" {
     description = "AWS Profile"
     type        = string
