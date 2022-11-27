@@ -31,7 +31,7 @@ def lambda_handler(event, context):
         response = saveUser(json.loads(event['body']))
     elif httpMethod == patchMethod and path == userPath:
         requestBody = json.loads(event['body'])
-        response = modifyUser(requestBody['user_id'], requestBody['updateKey'], requestBody['updateValue'])
+        response = modifyUser(requestBody['user_id'], requestBody['update_key'], requestBody['update_value'])
     elif httpMethod == deleteMethod and path == userPath:
         requestBody = json.loads(event['body'])
         response = deleteUser(requestBody['user_id'])
@@ -83,15 +83,15 @@ def saveUser(requestBody):
     except:
         logger.exception('Successfully added')
 
-def modifyUser(user_id, updateKey, updateValue):
+def modifyUser(user_id, update_key, update_value):
     try:
         response = table.update_item(
             Key={
                 'user_id': user_id
             },
-            UpdateExpression='set %s = :value' % updateKey,
+            UpdateExpression='set %s = :value' % update_key,
             ExpressionAttributeValues={
-                ':value': updateValue
+                ':value': update_value
             },
             ReturnVlues='UPDATED_NEW'
         )

@@ -31,7 +31,7 @@ def lambda_handler(event, context):
         response = saveProduct(json.loads(event['body']))
     elif httpMethod == patchMethod and path == productPath:
         requestBody = json.loads(event['body'])
-        response = modifyProduct(requestBody['product_id'], requestBody['updateKey'], requestBody['updateValue'])
+        response = modifyProduct(requestBody['product_id'], requestBody['update_key'], requestBody['update_value'])
     elif httpMethod == deleteMethod and path == productPath:
         requestBody = json.loads(event['body'])
         response = deleteProduct(requestBody['product_id'])
@@ -83,15 +83,15 @@ def saveProduct(requestBody):
     except:
         logger.exception('Successfully added')
 
-def modifyProduct(product_id, updateKey, updateValue):
+def modifyProduct(product_id, update_key, update_value):
     try:
         response = table.update_item(
             Key={
                 'product_id': product_id
             },
-            UpdateExpression='set %s = :value' % updateKey,
+            UpdateExpression='set %s = :value' % update_key,
             ExpressionAttributeValues={
-                ':value': updateValue
+                ':value': update_value
             },
             ReturnVlues='UPDATED_NEW'
         )
