@@ -98,6 +98,12 @@ const getAllProductsHandler = (request, h) => {
             product_type: product.product_type,
             product_length: product.product_length,
             capital: product.capital,
+            initial_stock: product.initial_stock,
+            current_stock: product.current_stock,
+            instock: product.instock,
+            outstock: product.outstock,
+            insertedAt: product.insertedAt,
+            updatedAt: product.updatedAt
           })),
         },
       })
@@ -122,6 +128,12 @@ const getAllProductsHandler = (request, h) => {
             product_type: product.product_type,
             product_length: product.product_length,
             capital: product.capital,
+            initial_stock: product.initial_stock,
+            current_stock: product.current_stock,
+            instock: product.instock,
+            outstock: product.outstock,
+            insertedAt: product.insertedAt,
+            updatedAt: product.updatedAt
           })),
         },
       })
@@ -145,6 +157,12 @@ const getAllProductsHandler = (request, h) => {
             product_type: product.product_type,
             product_length: product.product_length,
             capital: product.capital,
+            initial_stock: product.initial_stock,
+            current_stock: product.current_stock,
+            instock: product.instock,
+            outstock: product.outstock,
+            insertedAt: product.insertedAt,
+            updatedAt: product.updatedAt
           })),
         },
       })
@@ -166,6 +184,12 @@ const getAllProductsHandler = (request, h) => {
           product_name: product.product_name,
           product_type: product.product_type,
           capital: product.capital,
+          initial_stock: product.initial_stock,
+          current_stock: product.current_stock,
+          instock: product.instock,
+          outstock: product.outstock,
+          insertedAt: product.insertedAt,
+          updatedAt: product.updatedAt
         })),
       },
     })
