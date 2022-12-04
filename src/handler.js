@@ -12,7 +12,7 @@ const addProductHandler = (request, h) => {
     capital,
     initial_stock,
     current_stock,
-    instock,
+    visibility,
   } = request.payload;
 
   if (!product_name) {
@@ -51,7 +51,7 @@ const addProductHandler = (request, h) => {
     capital,
     initial_stock,
     current_stock,
-    instock,
+    visibility,
     product_id,
     outstock,
     insertedAt,
@@ -85,9 +85,9 @@ const addProductHandler = (request, h) => {
 };
 
 const getAllProductsHandler = (request, h) => {
-  const { product_name, instock, outstock } = request.query;
+  const { product_name, visibility, outstock } = request.query;
 
-  if (!product_name && !instock && !outstock) {
+  if (!product_name && !visibility && !outstock) {
     const response = h
       .response({
         status: 'success',
@@ -100,7 +100,7 @@ const getAllProductsHandler = (request, h) => {
             capital: product.capital,
             initial_stock: product.initial_stock,
             current_stock: product.current_stock,
-            instock: product.instock,
+            visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
             updatedAt: product.updatedAt
@@ -130,7 +130,7 @@ const getAllProductsHandler = (request, h) => {
             capital: product.capital,
             initial_stock: product.initial_stock,
             current_stock: product.current_stock,
-            instock: product.instock,
+            visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
             updatedAt: product.updatedAt
@@ -142,9 +142,9 @@ const getAllProductsHandler = (request, h) => {
     return response;
   }
 
-  if (instock) {
+  if (visibility) {
     const filteredProductsReading = products.filter(
-      (product) => Number(product.instock) === Number(instock),
+      (product) => Number(product.visibility) === Number(visibility),
     );
 
     const response = h
@@ -159,7 +159,7 @@ const getAllProductsHandler = (request, h) => {
             capital: product.capital,
             initial_stock: product.initial_stock,
             current_stock: product.current_stock,
-            instock: product.instock,
+            visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
             updatedAt: product.updatedAt
@@ -186,7 +186,7 @@ const getAllProductsHandler = (request, h) => {
           capital: product.capital,
           initial_stock: product.initial_stock,
           current_stock: product.current_stock,
-          instock: product.instock,
+          visibility: product.visibility,
           outstock: product.outstock,
           insertedAt: product.insertedAt,
           updatedAt: product.updatedAt
@@ -237,7 +237,7 @@ const editProductByIdHandler = (request, h) => {
     capital,
     initial_stock,
     current_stock,
-    instock,
+    visibility,
   } = request.payload;
 
   if (!product_name) {
@@ -279,7 +279,7 @@ const editProductByIdHandler = (request, h) => {
       capital,
       initial_stock,
       current_stock,
-      instock,
+      visibility,
       outstock,
       updatedAt,
     };
