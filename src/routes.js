@@ -10,9 +10,6 @@ const {
   addTransactionHandler,
   getAllTransactionsHandler,
   getTransactionByIdHandler,
-  editTransactionByIdHandler,
-  deleteTransactionByIdHandler,
-
 } = require('./handler');
 
 const routes = [
