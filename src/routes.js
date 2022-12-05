@@ -10,7 +10,7 @@ const routes = [
   {
     method: '*',
     path: '/{any*}',
-    handler: () => 'Halaman tidak tersedia | Dicoding Capstone C22-142 - Cashtex API Product',
+    handler: () => 'Halaman tidak tersedia | Dicoding Capstone C22-142 - Cashtex API',
   },
   {
     method: 'POST',
