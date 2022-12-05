@@ -1,6 +1,8 @@
 const { nanoid } = require('nanoid');
 const products = require('./products');
+const transactions = require('./transactions');
 
+// Products ---------------------------------------------------------------------------------------------
 const addProductHandler = (request, h) => {
   const {
     product_name,
@@ -96,7 +98,7 @@ const getAllProductsHandler = (request, h) => {
             product_id: product.product_id,
             product_name: product.product_name,
             product_type: product.product_type,
-            product_image: product.product_image,            
+            product_image: product.product_image,
             product_length: product.product_length,
             capital: product.capital,
             initial_stock: product.initial_stock,
@@ -104,7 +106,7 @@ const getAllProductsHandler = (request, h) => {
             visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
-            updatedAt: product.updatedAt
+            updatedAt: product.updatedAt,
           })),
         },
       })
@@ -127,7 +129,7 @@ const getAllProductsHandler = (request, h) => {
             product_id: product.product_id,
             product_name: product.product_name,
             product_type: product.product_type,
-            product_image: product.product_image,            
+            product_image: product.product_image,
             product_length: product.product_length,
             capital: product.capital,
             initial_stock: product.initial_stock,
@@ -135,7 +137,7 @@ const getAllProductsHandler = (request, h) => {
             visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
-            updatedAt: product.updatedAt
+            updatedAt: product.updatedAt,
           })),
         },
       })
@@ -157,7 +159,7 @@ const getAllProductsHandler = (request, h) => {
             product_id: product.product_id,
             product_name: product.product_name,
             product_type: product.product_type,
-            product_image: product.product_image,            
+            product_image: product.product_image,
             product_length: product.product_length,
             capital: product.capital,
             initial_stock: product.initial_stock,
@@ -165,7 +167,7 @@ const getAllProductsHandler = (request, h) => {
             visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
-            updatedAt: product.updatedAt
+            updatedAt: product.updatedAt,
           })),
         },
       })
@@ -186,7 +188,7 @@ const getAllProductsHandler = (request, h) => {
           product_id: product.product_id,
           product_name: product.product_name,
           product_type: product.product_type,
-          product_image: product.product_image,            
+          product_image: product.product_image,
           product_length: product.product_length,
           capital: product.capital,
           initial_stock: product.initial_stock,
@@ -194,7 +196,7 @@ const getAllProductsHandler = (request, h) => {
           visibility: product.visibility,
           outstock: product.outstock,
           insertedAt: product.insertedAt,
-          updatedAt: product.updatedAt
+          updatedAt: product.updatedAt,
         })),
       },
     })
@@ -333,10 +335,262 @@ const deleteProductByIdHandler = (request, h) => {
   return response;
 };
 
+// Transactions ---------------------------------------------------------------------------------------------
+const addTransactionHandler = (request, h) => {
+  const {
+    payment_method,
+    total_bill,
+    author,
+    received,
+    change,
+  } = request.payload;
+
+  if (!payment_method) {
+    const response = h
+      .response({
+        status: 'fail',
+        message: 'Gagal menambahkan transaksi. Mohon isi metode pembayaran transaksi',
+      })
+      .code(400);
+    return response;
+  }
+
+  if (change > received) {
+    const response = h
+      .response({
+        status: 'fail',
+        message:
+          'Gagal menambahkan transaksi. Jumlah kembalian tidak boleh lebih besar dari jumlah diterima',
+      })
+      .code(400);
+    return response;
+  }
+
+  const transaction_id = nanoid(16);
+  const insertedAt = new Date().toISOString();
+  const updatedAt = insertedAt;
+
+  const newTransaction = {
+    payment_method,
+    total_bill,
+    author,
+    received,
+    change,
+    transaction_id,
+    insertedAt,
+    updatedAt,
+  };
+
+  transactions.push(newTransaction);
+
+  const isSuccess = transactions.filter((note) => note.transaction_id === transaction_id).length > 0;
+
+  if (isSuccess) {
+    const response = h
+      .response({
+        status: 'success',
+        message: 'Transaksi berhasil ditambahkan',
+        data: {
+          transactionId: transaction_id,
+        },
+      })
+      .code(201);
+    return response;
+  }
+
+  const response = h
+    .response({
+      status: 'fail',
+      message: 'Transaksi gagal ditambahkan',
+    })
+    .code(500);
+  return response;
+};
+
+const getAllTransactionsHandler = (request, h) => {
+  const { payment_method } = request.query;
+
+  if (!payment_method) {
+    const response = h
+      .response({
+        status: 'success',
+        data: {
+          transactions: transactions.map((transaction) => ({
+            transaction_id: transaction.transaction_id,
+            payment_method: transaction.payment_method,
+            total_bill: transaction.total_bill,
+            author: transaction.author,
+            received: transaction.received,
+            change: transaction.change,
+            insertedAt: transaction.insertedAt,
+            updatedAt: transaction.updatedAt,
+          })),
+        },
+      })
+      .code(200);
+
+    return response;
+  }
+
+  if (payment_method) {
+    const filteredTransactionsName = transactions.filter((transaction) => {
+      const payment_methodRegex = new RegExp(payment_method, 'gi');
+      return payment_methodRegex.test(transaction.payment_method);
+    });
+
+    const response = h
+      .response({
+        status: 'success',
+        data: {
+          transactions: filteredTransactionsName.map((transaction) => ({
+            transaction_id: transaction.transaction_id,
+            payment_method: transaction.payment_method,
+            total_bill: transaction.total_bill,
+            author: transaction.author,
+            received: transaction.received,
+            change: transaction.change,
+            insertedAt: transaction.insertedAt,
+            updatedAt: transaction.updatedAt,
+          })),
+        },
+      })
+      .code(200);
+
+    return response;
+  }
+};
+
+const getTransactionByIdHandler = (request, h) => {
+  const { transactionId } = request.params;
+
+  const transaction = transactions.filter((n) => n.transaction_id === transactionId)[0];
+
+  if (transaction) {
+    const response = h
+      .response({
+        status: 'success',
+        data: {
+          transaction,
+        },
+      })
+      .code(200);
+    return response;
+  }
+
+  const response = h
+    .response({
+      status: 'fail',
+      message: 'Transaksi tidak ditemukan',
+    })
+    .code(404);
+  return response;
+};
+
+// const editTransactionByIdHandler = (request, h) => {
+//   const { transactionId } = request.params;
+
+//   const {
+//     payment_method,
+//     total_bill,
+//     author,
+//     received,
+//     change,
+//   } = request.payload;
+
+//   if (!payment_method) {
+//     // Client tidak melampirkan properti payment_method pada request body
+//     const response = h
+//       .response({
+//         status: 'fail',
+//         message: 'Gagal memperbarui transaksi. Mohon isi nama transaksi',
+//       })
+//       .code(400);
+//     return response;
+//   }
+
+//   if (current_stock > initial_stock) {
+//     const response = h
+//       .response({
+//         status: 'fail',
+//         message:
+//           'Gagal memperbarui transaksi. current_stock tidak boleh lebih besar dari initial_stock',
+//       })
+//       .code(400);
+//     return response;
+//   }
+
+//   const outstock = initial_stock === 0;
+//   const updatedAt = new Date().toISOString();
+
+//   const index = transactions.findIndex((note) => note.transaction_id === transactionId);
+
+//   if (index !== -1) {
+//     transactions[index] = {
+//       ...transactions[index],
+//       payment_method,
+//       total_bill,
+//       author,
+//       received,
+//       change,
+//       updatedAt,
+//     };
+
+//     const response = h
+//       .response({
+//         status: 'success',
+//         message: 'Transaksi berhasil diperbarui',
+//       })
+//       .code(200);
+//     return response;
+//   }
+
+//   const response = h
+//     .response({
+//       status: 'fail',
+//       message: 'Gagal memperbarui transaksi. Id tidak ditemukan',
+//     })
+//     .code(404);
+//   return response;
+// };
+
+// const deleteTransactionByIdHandler = (request, h) => {
+//   const { transactionId } = request.params;
+
+//   const index = transactions.findIndex((note) => note.transaction_id === transactionId);
+
+//   if (index !== -1) {
+//     transactions.splice(index, 1);
+
+//     const response = h
+//       .response({
+//         status: 'success',
+//         message: 'Transaksi berhasil dihapus',
+//       })
+//       .code(200);
+//     return response;
+//   }
+
+//   const response = h
+//     .response({
+//       status: 'fail',
+//       message: 'Transaksi gagal dihapus. Id tidak ditemukan',
+//     })
+//     .code(404);
+//   return response;
+// };
+
 module.exports = {
+  // Products
   addProductHandler,
   getAllProductsHandler,
   getProductByIdHandler,
   editProductByIdHandler,
   deleteProductByIdHandler,
+
+  // Transactions
+  addTransactionHandler,
+  getAllTransactionsHandler,
+  getTransactionByIdHandler,
+  // editTransactionByIdHandler,
+  // deleteTransactionByIdHandler,
 };
