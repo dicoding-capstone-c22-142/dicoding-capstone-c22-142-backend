@@ -97,6 +97,7 @@ const getAllProductsHandler = (request, h) => {
           products: products.map((product) => ({
             product_id: product.product_id,
             product_name: product.product_name,
+            product_price: product.product_price,
             product_type: product.product_type,
             product_image: product.product_image,
             product_length: product.product_length,
@@ -128,6 +129,7 @@ const getAllProductsHandler = (request, h) => {
           products: filteredProductsName.map((product) => ({
             product_id: product.product_id,
             product_name: product.product_name,
+            product_price: product.product_price,
             product_type: product.product_type,
             product_image: product.product_image,
             product_length: product.product_length,
@@ -158,6 +160,7 @@ const getAllProductsHandler = (request, h) => {
           products: filteredProductsReading.map((product) => ({
             product_id: product.product_id,
             product_name: product.product_name,
+            product_price: product.product_price,
             product_type: product.product_type,
             product_image: product.product_image,
             product_length: product.product_length,
@@ -187,6 +190,7 @@ const getAllProductsHandler = (request, h) => {
         products: filteredProductsFinished.map((product) => ({
           product_id: product.product_id,
           product_name: product.product_name,
+          product_price: product.product_price,
           product_type: product.product_type,
           product_image: product.product_image,
           product_length: product.product_length,
@@ -486,98 +490,6 @@ const getTransactionByIdHandler = (request, h) => {
   return response;
 };
 
-// const editTransactionByIdHandler = (request, h) => {
-//   const { transactionId } = request.params;
-
-//   const {
-//     payment_method,
-//     total_bill,
-//     author,
-//     received,
-//     change,
-//   } = request.payload;
-
-//   if (!payment_method) {
-//     // Client tidak melampirkan properti payment_method pada request body
-//     const response = h
-//       .response({
-//         status: 'fail',
-//         message: 'Gagal memperbarui transaksi. Mohon isi nama transaksi',
-//       })
-//       .code(400);
-//     return response;
-//   }
-
-//   if (current_stock > initial_stock) {
-//     const response = h
-//       .response({
-//         status: 'fail',
-//         message:
-//           'Gagal memperbarui transaksi. current_stock tidak boleh lebih besar dari initial_stock',
-//       })
-//       .code(400);
-//     return response;
-//   }
-
-//   const outstock = initial_stock === 0;
-//   const updatedAt = new Date().toISOString();
-
-//   const index = transactions.findIndex((note) => note.transaction_id === transactionId);
-
-//   if (index !== -1) {
-//     transactions[index] = {
-//       ...transactions[index],
-//       payment_method,
-//       total_bill,
-//       author,
-//       received,
-//       change,
-//       updatedAt,
-//     };
-
-//     const response = h
-//       .response({
-//         status: 'success',
-//         message: 'Transaksi berhasil diperbarui',
-//       })
-//       .code(200);
-//     return response;
-//   }
-
-//   const response = h
-//     .response({
-//       status: 'fail',
-//       message: 'Gagal memperbarui transaksi. Id tidak ditemukan',
-//     })
-//     .code(404);
-//   return response;
-// };
-
-// const deleteTransactionByIdHandler = (request, h) => {
-//   const { transactionId } = request.params;
-
-//   const index = transactions.findIndex((note) => note.transaction_id === transactionId);
-
-//   if (index !== -1) {
-//     transactions.splice(index, 1);
-
-//     const response = h
-//       .response({
-//         status: 'success',
-//         message: 'Transaksi berhasil dihapus',
-//       })
-//       .code(200);
-//     return response;
-//   }
-
-//   const response = h
-//     .response({
-//       status: 'fail',
-//       message: 'Transaksi gagal dihapus. Id tidak ditemukan',
-//     })
-//     .code(404);
-//   return response;
-// };
 
 module.exports = {
   // Products
@@ -591,6 +503,4 @@ module.exports = {
   addTransactionHandler,
   getAllTransactionsHandler,
   getTransactionByIdHandler,
-  // editTransactionByIdHandler,
-  // deleteTransactionByIdHandler,
 };

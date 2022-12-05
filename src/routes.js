@@ -13,12 +13,6 @@ const {
   editTransactionByIdHandler,
   deleteTransactionByIdHandler,
 
-  // //user
-  // addUserHandler,
-  // getAllUsersHandler,
-  // getUserByIdHandler,
-  // editUserByIdHandler,
-  // deleteUserByIdHandler,
 } = require('./handler');
 
 const routes = [
@@ -80,33 +74,6 @@ const routes = [
     path: '/transactions/{transactionId}',
     handler: () => 'Transaksi tidak dapat dihapus | Dicoding Capstone C22-142 - Cashtex API Product',
   },
-
-  // // users
-  // {
-  //   method: 'POST',
-  //   path: '/users',
-  //   handler: addUserHandler,
-  // },
-  // {
-  //   method: 'GET',
-  //   path: '/users',
-  //   handler: getAllUsersHandler,
-  // },
-  // {
-  //   method: 'GET',
-  //   path: '/users/{userId}',
-  //   handler: getUserByIdHandler,
-  // },
-  // {
-  //   method: 'PUT',
-  //   path: '/users/{userId}',
-  //   handler: editUserByIdHandler,
-  // },
-  // {
-  //   method: 'DELETE',
-  //   path: '/users/{userId}',
-  //   handler: deleteUserByIdHandler,
-  // },
 ];
 
 module.exports = routes;
