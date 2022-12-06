@@ -350,6 +350,7 @@ const addTransactionHandler = (request, h) => {
     amount,
     product_name,
     product_price,
+    product_type,
   } = request.payload;
 
   if (!payment_method) {
@@ -386,6 +387,7 @@ const addTransactionHandler = (request, h) => {
     amount,
     product_name,
     product_price,
+    product_type,
     transaction_id,
     insertedAt,
     updatedAt,
@@ -435,6 +437,7 @@ const getAllTransactionsHandler = (request, h) => {
             amount: transaction.amount,
             product_name: transaction.product_name,
             product_price: transaction.product_price,
+            product_type: transaction.product_type,
             insertedAt: transaction.insertedAt,
             updatedAt: transaction.updatedAt,
           })),
@@ -465,6 +468,7 @@ const getAllTransactionsHandler = (request, h) => {
             amount: transaction.amount,
             product_name: transaction.product_name,
             product_price: transaction.product_price,
+            product_type: transaction.product_type,
             insertedAt: transaction.insertedAt,
             updatedAt: transaction.updatedAt,
           })),
