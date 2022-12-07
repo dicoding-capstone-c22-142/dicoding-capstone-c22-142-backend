@@ -534,7 +534,7 @@ const addUserHandler = (request, h) => {
       .response({
         status: 'fail',
         message:
-          ' Gagal menambahkan user. Kata sandi harus terdiri dari 8 sampai 16 karakter, mengandung huruf, angka, dan simbol',
+          'Gagal menambahkan user. Kata sandi harus terdiri dari 8 sampai 16 karakter, mengandung huruf, angka, dan simbol',
       })
       .code(400);
     return response;
@@ -694,7 +694,7 @@ const editUserByIdHandler = (request, h) => {
       .response({
         status: 'fail',
         message:
-          ' Gagal menambahkan user. Kata sandi harus terdiri dari 8 sampai 16 karakter, mengandung huruf, angka, dan simbol',
+          'Gagal menambahkan user. Kata sandi harus terdiri dari 8 sampai 16 karakter, mengandung huruf, angka, dan simbol',
       })
       .code(400);
     return response;
