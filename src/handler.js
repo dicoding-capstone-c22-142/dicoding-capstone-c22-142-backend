@@ -609,10 +609,10 @@ const getAllUsersHandler = (request, h) => {
     return response;
   }
 
-  if (email) {
+  if (full_name) {
     const filteredUsersName = users.filter((user) => {
-      const emailRegex = new RegExp(email, 'gi');
-      return emailRegex.test(user.email);
+      const full_nameRegex = new RegExp(full_name, 'gi');
+      return full_nameRegex.test(user.full_name);
     });
 
     const response = h
