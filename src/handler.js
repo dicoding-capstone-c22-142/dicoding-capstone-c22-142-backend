@@ -1,6 +1,7 @@
 const { nanoid } = require('nanoid');
 const products = require('./products');
 const transactions = require('./transactions');
+const users = require('./users');
 
 // Products ---------------------------------------------------------------------------------------------
 const addProductHandler = (request, h) => {
@@ -38,7 +39,7 @@ const addProductHandler = (request, h) => {
     return response;
   }
 
-  const product_id = nanoid(16);
+  const product_id = "CT-P"+nanoid(16)+"PRD";
   const outstock = current_stock === 0;
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
@@ -252,7 +253,6 @@ const editProductByIdHandler = (request, h) => {
   } = request.payload;
 
   if (!product_name) {
-    // Client tidak melampirkan properti product_name pada request body
     const response = h
       .response({
         status: 'fail',
@@ -374,7 +374,7 @@ const addTransactionHandler = (request, h) => {
     return response;
   }
 
-  const transaction_id = nanoid(16);
+  const transaction_id = "CT-T"+nanoid(16)+"TRS";
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
 
@@ -506,6 +506,262 @@ const getTransactionByIdHandler = (request, h) => {
   return response;
 };
 
+// Users ---------------------------------------------------------------------------------------------
+const addUserHandler = (request, h) => {
+  const {
+    email,
+    password,
+    full_name,
+    phone_number,
+    profile_image,
+    role,
+    is_logged_in,
+  } = request.payload;
+
+  if (!email) {
+    const response = h
+      .response({
+        status: 'fail',
+        message: 'Gagal menambahkan user. Mohon isi email',
+      })
+      .code(400);
+    return response;
+  }
+
+  const regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+  if (!regularExpression.test(password) || password.length < 8 || password.length > 15) {
+    const response = h
+      .response({
+        status: 'fail',
+        message:
+          ' Gagal menambahkan user. Kata sandi harus terdiri dari 8 sampai 16 karakter, mengandung huruf, angka, dan simbol',
+      })
+      .code(400);
+    return response;
+  }
+
+  const user_id = "CT-U"+nanoid(16)+"ACN"
+  const insertedAt = new Date().toISOString();
+  const updatedAt = insertedAt;
+
+  const newUser = {
+    email,
+    password,
+    full_name,
+    phone_number,
+    profile_image,
+    role,
+    is_logged_in,
+    user_id,
+    insertedAt,
+    updatedAt,
+  };
+
+  users.push(newUser);
+
+  const isSuccess = users.filter((note) => note.user_id === user_id).length > 0;
+
+  if (isSuccess) {
+    const response = h
+      .response({
+        status: 'success',
+        message: 'User berhasil ditambahkan',
+        data: {
+          userId: user_id,
+        },
+      })
+      .code(201);
+    return response;
+  }
+
+  const response = h
+    .response({
+      status: 'fail',
+      message: 'User gagal ditambahkan',
+    })
+    .code(500);
+  return response;
+};
+
+const getAllUsersHandler = (request, h) => {
+  const { email } = request.query;
+
+  if (!email) {
+    const response = h
+      .response({
+        status: 'success',
+        data: {
+          users: users.map((user) => ({
+            user_id: user.user_id,
+            email: user.email,
+            full_name: user.full_name,
+            phone_number: user.phone_number,
+            profile_image: user.profile_image,
+            role: user.role,
+            is_logged_in: user.is_logged_in,
+            insertedAt: user.insertedAt,
+            updatedAt: user.updatedAt,
+          })),
+        },
+      })
+      .code(200);
+
+    return response;
+  }
+
+  if (email) {
+    const filteredUsersName = users.filter((user) => {
+      const emailRegex = new RegExp(email, 'gi');
+      return emailRegex.test(user.email);
+    });
+
+    const response = h
+      .response({
+        status: 'success',
+        data: {
+          users: filteredUsersName.map((user) => ({
+            user_id: user.user_id,
+            email: user.email,
+            full_name: user.full_name,
+            phone_number: user.phone_number,
+            profile_image: user.profile_image,
+            role: user.role,
+            is_logged_in: user.is_logged_in,
+            insertedAt: user.insertedAt,
+            updatedAt: user.updatedAt,
+          })),
+        },
+      })
+      .code(200);
+
+    return response;
+  }
+};
+
+const getUserByIdHandler = (request, h) => {
+  const { userId } = request.params;
+
+  const user = users.filter((n) => n.user_id === userId)[0];
+
+  if (user) {
+    const response = h
+      .response({
+        status: 'success',
+        data: {
+          user,
+        },
+      })
+      .code(200);
+    return response;
+  }
+
+  const response = h
+    .response({
+      status: 'fail',
+      message: 'User tidak ditemukan',
+    })
+    .code(404);
+  return response;
+};
+
+const editUserByIdHandler = (request, h) => {
+  const { userId } = request.params;
+
+  const {
+    email,
+    password,
+    full_name,
+    phone_number,
+    profile_image,
+    role,
+    is_logged_in,
+    user_id,
+  } = request.payload;
+
+  if (!email) {
+    const response = h
+      .response({
+        status: 'fail',
+        message: 'Gagal memperbarui user. Mohon isi email',
+      })
+      .code(400);
+    return response;
+  }
+
+  const regularExpression = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,16}$/;
+  if (!regularExpression.test(password) || password.length < 8 || password.length > 15) {
+    const response = h
+      .response({
+        status: 'fail',
+        message:
+          ' Gagal menambahkan user. Kata sandi harus terdiri dari 8 sampai 16 karakter, mengandung huruf, angka, dan simbol',
+      })
+      .code(400);
+    return response;
+  }
+
+  const updatedAt = new Date().toISOString();
+
+  const index = users.findIndex((note) => note.user_id === userId);
+
+  if (index !== -1) {
+    users[index] = {
+      ...users[index],
+      email,
+      password,
+      full_name,
+      phone_number,
+      profile_image,
+      role,
+      is_logged_in,
+      user_id,
+      updatedAt,
+    };
+
+    const response = h
+      .response({
+        status: 'success',
+        message: 'User berhasil diperbarui',
+      })
+      .code(200);
+    return response;
+  }
+
+  const response = h
+    .response({
+      status: 'fail',
+      message: 'Gagal memperbarui user. Id tidak ditemukan',
+    })
+    .code(404);
+  return response;
+};
+
+const deleteUserByIdHandler = (request, h) => {
+  const { userId } = request.params;
+
+  const index = users.findIndex((note) => note.user_id === userId);
+
+  if (index !== -1) {
+    users.splice(index, 1);
+
+    const response = h
+      .response({
+        status: 'success',
+        message: 'User berhasil dihapus',
+      })
+      .code(200);
+    return response;
+  }
+
+  const response = h
+    .response({
+      status: 'fail',
+      message: 'User gagal dihapus. Id tidak ditemukan',
+    })
+    .code(404);
+  return response;
+};
+
 
 module.exports = {
   // Products
@@ -519,4 +775,11 @@ module.exports = {
   addTransactionHandler,
   getAllTransactionsHandler,
   getTransactionByIdHandler,
+
+  // User
+  addUserHandler,
+  getAllUsersHandler,
+  getUserByIdHandler,
+  editUserByIdHandler,
+  deleteUserByIdHandler,
 };
