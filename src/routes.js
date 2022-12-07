@@ -19,92 +19,93 @@ const {
   deleteUserByIdHandler,
 } = require('./handler');
 
+const api_version = 'v1';
 const routes = [
   // Products --------------------------------------------------------------
   {
     method: '*',
     path: '/{any*}',
-    handler: () => 'Halaman tidak tersedia | Dicoding Capstone C22-142 - Cashtex API Product',
+    handler: () => 'Halaman tidak tersedia | Dicoding Capstone C22-142 - Cashtex API',
   },
   {
     method: 'POST',
-    path: '/products',
+    path: '/{api_version}/products',
     handler: addProductHandler,
   },
   {
     method: 'GET',
-    path: '/products',
+    path: '/{api_version}/products',
     handler: getAllProductsHandler,
   },
   {
     method: 'GET',
-    path: '/products/{productId}',
+    path: '/{api_version}/products/{productId}',
     handler: getProductByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/products/{productId}',
+    path: '/{api_version}/products/{productId}',
     handler: editProductByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/products/{productId}',
+    path: '/{api_version}/products/{productId}',
     handler: deleteProductByIdHandler,
   },
 
   // Transactions --------------------------------------------------------------
   {
     method: 'POST',
-    path: '/transactions',
+    path: '/{api_version}/transactions',
     handler: addTransactionHandler,
   },
   {
     method: 'GET',
-    path: '/transactions',
+    path: '/{api_version}/transactions',
     handler: getAllTransactionsHandler,
   },
   {
     method: 'GET',
-    path: '/transactions/{transactionId}',
+    path: '/{api_version}/transactions/{transactionId}',
     handler: getTransactionByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/transactions/{transactionId}',
+    path: '/{api_version}/transactions/{transactionId}',
     handler: () => 'Transaksi tidak dapat diubah | Dicoding Capstone C22-142 - Cashtex API Product',
   },
   {
     method: 'DELETE',
-    path: '/transactions/{transactionId}',
+    path: '/{api_version}/transactions/{transactionId}',
     handler: () => 'Transaksi tidak dapat dihapus | Dicoding Capstone C22-142 - Cashtex API Product',
   },
 
   // Users --------------------------------------------------------------
   {
     method: 'POST',
-    path: '/users',
+    path: '/{api_version}/users',
     handler: addUserHandler,
   },
   {
     method: 'GET',
-    path: '/users',
+    path: '/{api_version}/users',
     handler: getAllUsersHandler,
   },
   {
     method: 'GET',
-    path: '/users/{userId}',
+    path: '/{api_version}/users/{userId}',
     handler: getUserByIdHandler,
   },
   {
     method: 'PUT',
-    path: '/users/{userId}',
+    path: '/{api_version}/users/{userId}',
     handler: editUserByIdHandler,
   },
   {
     method: 'DELETE',
-    path: '/users/{userId}',
+    path: '/{api_version}/users/{userId}',
     handler: deleteUserByIdHandler,
   },
 ];
 
-module.exports = routes;
+module.exports = routes, api_version;
