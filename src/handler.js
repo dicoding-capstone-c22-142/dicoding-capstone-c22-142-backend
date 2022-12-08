@@ -41,7 +41,7 @@ const addProductHandler = (request, h) => {
   }
 
   const product_id = "CT-P"+nanoid(16)+"PRD";
-  const outstock = current_stock === 0;
+  const outstock = current_length <= 0;
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
 
