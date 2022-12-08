@@ -15,6 +15,7 @@ const addProductHandler = (request, h) => {
     capital,
     initial_stock,
     current_stock,
+    current_length,
     visibility,
   } = request.payload;
 
@@ -54,6 +55,7 @@ const addProductHandler = (request, h) => {
     capital,
     initial_stock,
     current_stock,
+    current_length,
     visibility,
     product_id,
     outstock,
@@ -105,6 +107,7 @@ const getAllProductsHandler = (request, h) => {
             capital: product.capital,
             initial_stock: product.initial_stock,
             current_stock: product.current_stock,
+            current_length: product.current_length,
             visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
@@ -137,6 +140,7 @@ const getAllProductsHandler = (request, h) => {
             capital: product.capital,
             initial_stock: product.initial_stock,
             current_stock: product.current_stock,
+            current_length: product.current_length,
             visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
@@ -168,6 +172,7 @@ const getAllProductsHandler = (request, h) => {
             capital: product.capital,
             initial_stock: product.initial_stock,
             current_stock: product.current_stock,
+            current_length: product.current_length,
             visibility: product.visibility,
             outstock: product.outstock,
             insertedAt: product.insertedAt,
@@ -198,6 +203,7 @@ const getAllProductsHandler = (request, h) => {
           capital: product.capital,
           initial_stock: product.initial_stock,
           current_stock: product.current_stock,
+          current_length: product.current_length,
           visibility: product.visibility,
           outstock: product.outstock,
           insertedAt: product.insertedAt,
@@ -249,6 +255,7 @@ const editProductByIdHandler = (request, h) => {
     capital,
     initial_stock,
     current_stock,
+    current_length,
     visibility,
   } = request.payload;
 
@@ -290,6 +297,7 @@ const editProductByIdHandler = (request, h) => {
       capital,
       initial_stock,
       current_stock,
+      current_length,
       visibility,
       outstock,
       updatedAt,
